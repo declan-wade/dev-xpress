@@ -44,9 +44,14 @@ export default function NewTaskForm() {
     { value: "BA20A", label: "BA20A" },
   ];
 
-  const statDays = [
+  const statDaysPlanning = [
     { value: 60, label: "60 days" },
     { value: 90, label: "90 days" },
+  ];
+
+  const statDaysBuilding = [
+    { value: 10, label: "10 days" },
+    { value: 25, label: "25 days" },
   ];
 
   const planningStatus = [
@@ -70,7 +75,7 @@ export default function NewTaskForm() {
       data,
       `${user?.firstName} ${user?.lastName}`,
     );
-    console.log(response);
+    window.location.assign("/tasks");
   }
 
   async function handleOrg() {
@@ -113,7 +118,6 @@ export default function NewTaskForm() {
             name="status"
             label="Status:"
             rules={[{ required: type === 1 }]}
-            hidden={type != 1}
           >
             <Select options={planningStatus} />
           </Form.Item>
@@ -156,13 +160,19 @@ export default function NewTaskForm() {
           <Form.Item name="startDate" label="Start Date:">
             <DatePicker format="DD MMMM YYYY" />
           </Form.Item>
-          <Form.Item
-            name="statDays"
-            label="Statutory Days (calendar days):"
-            hidden={type != 1}
-          >
-            <Select options={statDays} />
-          </Form.Item>
+
+          {type == 1 ? (
+            <Form.Item name="statDays" label="Statutory Days (calendar days):">
+              <Select options={statDaysPlanning} />
+            </Form.Item>
+          ) : type == 2 ? (
+            <Form.Item name="statDays" label="Statutory Days (business days):">
+              <Select options={statDaysBuilding} />
+            </Form.Item>
+          ) : (
+            <></>
+          )}
+
           <Form.Item
             name="assignedOfficer"
             label="Assigned Officer:"

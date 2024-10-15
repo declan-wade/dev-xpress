@@ -22,7 +22,7 @@ export async function createReferral(data) {
     const result = await sendInitialEmail(data);
     console.log(result)
     data.email_id = result.response.data.id
-    const database = client.db("easy-assess-prev");
+    const database = client.db("dev-xpress-prev");
     const referrals = database.collection("referrals");
     const options = { upsert: true };
     const outcome = await referrals.insertOne(data, options);
@@ -96,7 +96,7 @@ export async function getReferralsByRef(id) {
 
 export async function getReferralById(id) {
   try {
-    const database = client.db("easy-assess-prev");
+    const database = client.db("dev-xpress-prev");
     const referrals = database.collection("referrals");
     const query = { _id: id };
     return fetchDocumentsByQuery(referrals, query);
@@ -108,7 +108,7 @@ export async function getReferralById(id) {
 
 export async function getReferralEmailLog(id) {
   try {
-    const database = client.db("easy-assess-prev");
+    const database = client.db("dev-xpress-prev");
     const referrals = database.collection("email-log");
     const query = { app_ref: id };
     return fetchDocumentsByQuery(referrals, query);
@@ -121,7 +121,7 @@ export async function getReferralEmailLog(id) {
 export async function validateReferral(pin,id) {
   console.log("recieved", pin, id)
   try {
-    const database = client.db("easy-assess-prev");
+    const database = client.db("dev-xpress-prev");
     const referrals = database.collection("referrals");
     const query = { _id: id };
     const response = await fetchDocumentsByQuery(referrals, query);
@@ -142,7 +142,7 @@ export async function validateReferral(pin,id) {
 
 export async function updateReferral(responseStatus,responseDetails,responseFiles,id){
   try {
-    const database = client.db("easy-assess-prev");
+    const database = client.db("dev-xpress-prev");
     const referrals = database.collection("referrals");
     const updateDoc = {
         $set: {
@@ -165,7 +165,7 @@ export async function updateReferral(responseStatus,responseDetails,responseFile
 
 export async function getEmailLog(id){
   try {
-    const database = client.db("easy-assess-prev");
+    const database = client.db("dev-xpress-prev");
     const emailLog = database.collection("email_log");
     const query = { email_id: id };
     const response = await fetchDocumentsByQuery(emailLog, query);

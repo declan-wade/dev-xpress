@@ -58,8 +58,7 @@ export default function Page({ params }: any) {
         { reason: reason, pauseDate: pauseDate, resumeDate: "" }, // Append the new clock event
       ],
     };
-    const response = await updateTask(params.id, payload);
-    console.log(response);
+    updateTask(params.id, payload);
     handleFetch();
     setOpen(false);
   }
@@ -101,9 +100,13 @@ export default function Page({ params }: any) {
     }
   }, [user]);
 
-  const pauseReason = [
+  const pauseReasonPlanning = [
     { value: "Clause 65A Planners RFI", label: "Clause 65A Planner RFI" },
     { value: "Clause 63A Admin RFI", label: "Clause 63A Admin RFI" },
+  ];
+
+  const pauseReasonBuilding = [
+    { value: "Section 18 RFI", label: "Section 18 RFI" },
   ];
 
   const items = [
@@ -207,11 +210,23 @@ export default function Page({ params }: any) {
         >
           <>
             <p>Reason for Clock Pause</p>
-            <Select
-              onSelect={(e) => setReason(e)}
-              options={pauseReason}
-              style={{ width: "300px" }}
-            />
+            {data ? (
+              data.taskType.includes("BA") ? (
+                <Select
+                  onSelect={(e) => setReason(e)}
+                  options={pauseReasonBuilding}
+                  style={{ width: "300px" }}
+                />
+              ) : (
+                <Select
+                  onSelect={(e) => setReason(e)}
+                  options={pauseReasonPlanning}
+                  style={{ width: "300px" }}
+                />
+              )
+            ) : (
+              <></>
+            )}
             <br />
             <br />
 

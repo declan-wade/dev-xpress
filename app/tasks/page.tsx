@@ -35,7 +35,11 @@ export default function Page() {
       <Navbar pageKey="2" />
       <Content style={{ padding: "0 50px", marginTop: 64 }}>
         <Title level={3}>My Tasks</Title>
-        <Button type="primary" style={{ marginBottom: "15px" }}>
+        <Button
+          type="primary"
+          onClick={() => window.location.assign("/tasks/new")}
+          style={{ marginBottom: "15px" }}
+        >
           Add
         </Button>
         <Table columns={TaskColumns} rowKey="_id" dataSource={data} />

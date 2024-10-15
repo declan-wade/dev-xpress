@@ -103,7 +103,7 @@ export const ClockEvents: any = [
       record.resumeDate ? (
         <p>{dayjs(record.resumeDate).diff(text, "days")}</p>
       ) : (
-        <p>--</p>
+        <p>{dayjs().diff(text, "days")} days elapsed</p>
       ),
   },
 ];
