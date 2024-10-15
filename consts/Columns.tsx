@@ -1,5 +1,8 @@
 import React from "react";
 import dayjs from "dayjs";
+import { Tag } from "antd";
+import dayjsBusinessTime from "dayjs-business-time";
+dayjs.extend(dayjsBusinessTime);
 
 function getTargetDate(data: any) {
   if (data.clockEventnts) {
@@ -28,6 +31,39 @@ function getTargetDate(data: any) {
   }
 }
 
+function getTargetDateBiz(data: any) {
+  if (data.clockEvents) {
+    // Step 1: Parse startDate and add business days
+    let targetDate = dayjs(data.startDate).addBusinessTime(
+      data.statDays,
+      "days",
+    );
+    console.log({ targetDate });
+    // Step 2: Calculate the total paused days
+    let totalPausedDays = 0;
+
+    data.clockEvents.forEach((event: any) => {
+      const pauseDate = dayjs(event.pauseDate);
+      const resumeDate = dayjs(event.resumeDate);
+
+      // Calculate the difference in days between pauseDate and resumeDate
+      const pausedDuration = resumeDate.diff(pauseDate, "day", true); // 'true' includes partial days as decimals
+      totalPausedDays += pausedDuration;
+    });
+
+    // Step 3: Add the total paused days to the target date
+    targetDate = targetDate.add(totalPausedDays, "day");
+    console.log(targetDate.format("D MMMM YYYY"));
+    // Step 4: Return the formatted target date
+    return targetDate.format("D MMMM YYYY");
+  } else {
+    // If no clock events, simply add the business days
+    return dayjs(data.startDate)
+      .addBusinessTime(data.statDays, "days")
+      .format("D MMMM YYYY");
+  }
+}
+
 export const TaskColumns: any = [
   {
     title: "ID",
@@ -47,7 +83,14 @@ export const TaskColumns: any = [
     title: "Clock State",
     dataIndex: "clockState",
     key: "clockState",
-    render: (text: string) => <p>{text}</p>,
+    render: (text: string) =>
+      text == "Running" ? (
+        <Tag color="green">{text}</Tag>
+      ) : text == "Paused" ? (
+        <Tag color="orange">{text}</Tag>
+      ) : (
+        <Tag>{text}</Tag>
+      ),
   },
   {
     title: "Start Date",
@@ -65,7 +108,12 @@ export const TaskColumns: any = [
     title: "Due Date",
     dataIndex: "startDate",
     key: "startDate",
-    render: (text: string, record: any) => <p>{getTargetDate(record)}</p>,
+    render: (text: string, record: any) =>
+      dayjs(getTargetDate(record)).isBefore(dayjs()) ? (
+        <Tag color="red">{getTargetDate(record)}</Tag>
+      ) : (
+        <p>{getTargetDate(record)}</p>
+      ),
   },
   {
     title: "Type",

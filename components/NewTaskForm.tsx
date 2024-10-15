@@ -104,7 +104,9 @@ export default function NewTaskForm() {
           >
             <Radio value={1}>Planning</Radio>
             <Radio value={2}>Building</Radio>
-            <Radio value={3}>Environmental Health</Radio>
+            <Radio value={3} disabled>
+              Environmental Health
+            </Radio>
           </Radio.Group>
           <Form.Item
             name="taskType"
@@ -114,11 +116,7 @@ export default function NewTaskForm() {
           >
             <Select options={planningTypes} />
           </Form.Item>
-          <Form.Item
-            name="status"
-            label="Status:"
-            rules={[{ required: type === 1 }]}
-          >
+          <Form.Item name="status" label="Status:" rules={[{ required: true }]}>
             <Select options={planningStatus} />
           </Form.Item>
           <Form.Item
@@ -157,7 +155,11 @@ export default function NewTaskForm() {
               <Button type="primary">Search</Button>
             </Space.Compact>
           </Form.Item>
-          <Form.Item name="startDate" label="Start Date:">
+          <Form.Item
+            name="startDate"
+            label="Start Date:"
+            rules={[{ required: true }]}
+          >
             <DatePicker format="DD MMMM YYYY" />
           </Form.Item>
 

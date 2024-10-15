@@ -2,6 +2,7 @@
 import React from "react";
 import { Layout, Card, List, Typography, Space, Row, Col, Spin } from "antd";
 import { useUser } from "@clerk/nextjs";
+import { getTasks } from "@/utils/taskHelper";
 import Navbar from "@/components/Navbar";
 
 const { Content, Footer } = Layout;
@@ -17,9 +18,9 @@ export default function Dashboard() {
 
   async function handleAssessments() {
     if (user?.id) {
-      //const payload = await getAssessment(user.id);
-      //setList(payload);
-      //console.log({ payload });
+      const payload = await getTasks(user.id);
+      setList(payload);
+      console.log({ payload });
     }
   }
 
@@ -35,6 +36,7 @@ export default function Dashboard() {
 
   React.useEffect(() => {
     if (isLoaded) {
+      handleAssessments();
     }
   }, [isLoaded]);
 
@@ -44,7 +46,7 @@ export default function Dashboard() {
       value: 0,
     },
     { title: "Overdue Applications", value: 0 },
-    { title: "Total Applications", value: 0 },
+    { title: "Total Applications", value: list?.length },
   ];
 
   const referralData = [

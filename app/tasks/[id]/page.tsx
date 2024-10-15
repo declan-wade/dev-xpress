@@ -70,8 +70,7 @@ export default function Page({ params }: any) {
       clockState: "Running",
       clockEvents: data.clockEvents,
     };
-    const response = await updateTask(params.id, payload);
-    console.log(response);
+    updateTask(params.id, payload);
     handleFetch();
     setOpen2(false);
   }
