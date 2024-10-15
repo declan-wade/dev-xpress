@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --foreground-rgb: 0, 0, 0;
+    --background-start-rgb: 214, 219, 220;
+    --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --foreground-rgb: 255, 255, 255;
+        --background-start-rgb: 0, 0, 0;
+        --background-end-rgb: 0, 0, 0;
+    }
+}
+
+body {
+    color: rgb(var(--foreground-rgb));
+    background: linear-gradient(
+            to bottom,
+            transparent,
+            rgb(var(--background-end-rgb))
+        )
+        rgb(var(--background-start-rgb));
+}
+
+label {
+    font-weight: bold;
+}
+
+ol {
+    margin-left: 20px;
+    list-style-type: lower-roman;
+}
+
+/* h3 {
+    color: white !important;
+    margin-bottom: 2px !important;
+    margin-right: 10px;
+} */
+
+@layer utilities {
+    .text-balance {
+        text-wrap: balance;
+    }
+}
+
+.ant-card .ant-card-body {
+    padding: 12px !important;
+}
+
+.ant-card .ant-card-head {
+    padding: 12px !important;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    white-space: pre-wrap !important;
+}
+
+.interactive-modal .ant-modal-content {
+    pointer-events: auto !important;
+}
+
+.ant-modal-wrap.interactive-modal {
+    pointer-events: none;
+}
+
+h4 {
+    font-size: 16px !important;
+}
